@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>mquad</title>
+        <meta charset="utf-8" />
+        <meta name="description" content="M+Climate quadratic funding" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link rel="icon" href="assets/icon.png" />
+        <link rel="stylesheet" href="assets/style.css" />
+    </head>
+    <body>
+        <div id="message">
+            <p id="loading">loading...</p>
+            <p id="install">
+                install
+                <a target="_blank" rel="noopener" href="https://metamask.io">metamask</a>
+            </p>
+            <p id="network">switch to the kovan network</p>
+            <button id="connect" class="button" type="button">connect</button>
+        </div>
+        <div id="administrator">
+            <h1>administrator</h1>
+            <h2>manage administrators</h2>
+            <p class="center">
+                You are the administrator. Total administrators -
+                <span id="totalAdministrators">...</span>.
+                Address can be removed from administrators or added to administrators if there is
+                a simple majority of votes.</p>
+            <div id="pendingAdministrators"></div>
+            <label class="label">
+                enter administrator's address
+                <span id="administratorAddressHint" class="hint"></span>
+                <input id="administratorAddress" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <div class="buttons">
+                <button id="addAdministrator" class="button" type="button">add</button>
+                <button id="removeAdministrator" class="button" type="button">remove</button>
+            </div>
+            <h2>manage funders</h2>
+            <p class="center">Add or remove addresses that can participate in the qf funding.</p>
+            <label class="label">
+                enter funder's address
+                <span id="funderAddressHint" class="hint"></span>
+                <input id="funderAddress" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <div class="buttons">
+                <button id="addFunder" class="button" type="button">add</button>
+                <button id="removeFunder" class="button" type="button">remove</button>
+            </div>
+            <h2>start qf round</h2>
+            <label class="label">
+                enter duration in hours
+                <span id="startHoursHint" class="hint"></span>
+                <input id="startHours" class="input" type="text" />
+            </label>
+            <button id="start" class="button" type="button">start</button>
+            <h2>manage projects</h2>
+            <p class="center">
+                The project must be approved by the administrator to participate in the qf funding.
+            </p>
+            <div id="pendingProjects"></div>
+        </div>
+        <div id="user">
+            <h2>you have <span id="balance">...</span> M+C</h2>
+            <h2>add funds</h2>
+            <p class="center">
+                Add M+C tokens to the shared pool, which will be divided between projects according to
+                the results of the qf funding.
+                Currently it has <span id="poolBalance">...</span> M+C tokens.
+                It is assumed that M+C community fund adds tokens to this pool, but it can be any M+C holder.
+            </p>
+            <label class="label">
+                enter M+C value
+                <span id="poolValueHint" class="hint"></span>
+                <input id="poolValue" class="input" type="text" />
+            </label>
+            <button id="pool" class="button" type="button">fund</button>
+            <h2>add project</h2>
+            <p class="center">Add a new project to the current funding round.</p>
+            <label class="label">
+                enter address
+                <span id="projectAddressHint" class="hint"></span>
+                <input id="projectAddress" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <label class="label">
+                enter link
+                <span id="projectLinkHint" class="hint"></span>
+                <input id="projectLink" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <button id="addProject" class="button" type="button">add</button>
+            <h2>projects</h2>
+            <div id="projects"></div>
+            <p>Qf-vote for the project.</p>
+            <label class="label">
+                enter project address
+                <span id="fundAddressHint" class="hint"></span>
+                <input id="fundAddress" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <label class="label">
+                enter M+C value
+                <span id="fundValueHint" class="hint"></span>
+                <input id="fundValue" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <button id="fund" class="button" type="button">fund</button>
+            <h2>finish</h2>
+            <p>Finish the current qf round. It can do anybody. It can cost much gas. Time when it can be finished - <span id="time"></span></p>
+            <button id="finish" class="button" type="button">finish</button>
+            <h2>logs</h2>
+            <div id="log"></div>
+        </div>
+        <script src="assets/bignumber.min.js"></script>
+        <script src="assets/script.js"></script>
+    </body>
+</html>

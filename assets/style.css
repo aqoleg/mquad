@@ -1,0 +1,110 @@
+/* color: blue */
+
+html, body {
+    margin: 0px;
+    padding: 0px;
+}
+html, button, input {
+    font-family: monospace;
+}
+a {
+    color: black;
+}
+h1, h2 {
+    margin: 5px;
+    font-weight: normal;
+    text-align: center;
+}
+h2 {
+    margin-top: 96px;
+}
+
+#message {
+    height: 64px;
+    padding-top: 16px;
+    text-align: center;
+}
+#install, #network, #connect, #administrator {
+    display: none;
+}
+.center {
+    margin: 8px 32px;
+    text-align: center;
+}
+#pendingAdministrators {
+    width: 90%;
+    max-width: 700px;
+    margin: 32px auto 0px;
+}
+.link {
+    border: none;
+    padding: 0px;
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.label {
+    display: block;
+    width: 90%;
+    max-width: 700px;
+    margin: 16px auto;
+    cursor: text;
+}
+.hint {
+    padding-left: 8px;
+    color: red;
+    font-size: 10px;
+}
+.input {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    margin-left: -10px;
+    border: 2px solid black;
+    padding: 8px;
+    background: none;
+    font-size: 16px;
+}
+.input:focus, textarea:focus {
+    border-color: blue;
+}
+.buttons {
+    width: 400px;
+    margin: auto;
+    overflow: auto;
+}
+.buttons button {
+    float:left;
+}
+.button {
+    display: block;
+    width: 200px;
+    height: 48px;
+    border: 2px solid black;
+    margin: auto;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+#log {
+    width: 90%;
+    margin: 32px auto 0px;
+    padding-bottom: 32px;
+}
+.onestring {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (hover: hover) {
+    a:hover {
+        color: blue;
+    }
+    .input:hover, textarea:hover {
+        border-color: blue;
+    }
+    button:hover {
+        border-color: blue;
+        color: blue;
+    }
+}
