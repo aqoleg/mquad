@@ -217,9 +217,8 @@ contract Mquad {
         emit Fund(_project, sender, _value);
     }
 
-    function finish() public {
+    function finish() public onlyAdministrator {
         require(stopSeconds > 0, "not started");
-        require(block.timestamp >= stopSeconds, "not finished");
         uint256 projectsN = projectAddresses.length;
         uint256 qsum = 0;
         for (uint256 i = 0; i < projectsN; i++) {
@@ -231,7 +230,7 @@ contract Mquad {
         for (uint256 i = 0; i < projectsN; i++) {
             address projectAddress = projectAddresses[i];
             Project storage project = projects[projectAddress];
-            if (project.approved) {
+            if (project.approved && qsum > 0) {
                 uint256 value = project.sum;
                 value = value.add((project.sqsum.mul(project.sqsum)).mul(fundSum).div(qsum));
                 Mc(mc).transfer(projectAddress, value);
@@ -239,12 +238,8 @@ contract Mquad {
             delete projects[projectAddress];
         }
         delete projectAddresses;
-        uint256 remain = Mc(mc).balanceOf(address(this));
-        if (remain > 0) {
-            Mc(mc).transfer(msg.sender, remain);
-        }
         stopSeconds = 0;
-        fundSum = 0;
+        fundSum = Mc(mc).balanceOf(address(this));
         emit Finish(msg.sender);
     }
 
@@ -278,5 +273,17 @@ contract Mquad {
 
     function projectFunder(address _project, uint256 i) public view returns (address) {
         return projects[_project].funders[i];
+    }
+
+    function haveFundProject(address _project) public view returns (bool) {
+        address sender = msg.sender;
+        Project storage project = projects[_project];
+        uint256 fundersN = project.funders.length;
+        for (uint256 i = 0; i < fundersN; i++) {
+            if (project.funders[i] == sender) {
+                return true;
+            }
+        }
+        return false;
     }
 }

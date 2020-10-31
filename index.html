@@ -58,9 +58,19 @@
             <button id="start" class="button" type="button">start</button>
             <h2>manage projects</h2>
             <p class="center">
-                The project must be approved by the administrator to participate in the qf funding.
+                The project must be approved by the administrator in order to participate in the qf funding.
             </p>
             <div id="pendingProjects"></div>
+            <label class="label">
+                enter project's address
+                <span id="approveAddressHint" class="hint"></span>
+                <input id="approveAddress" class="input" type="text" size="42" maxlength="42" />
+            </label>
+            <button id="approve" class="button" type="button">approve</button>
+            <h2>finish qf round</h2>
+            <span id="finishHint" class="hint"></span>
+            <button id="finish" class="button" type="button">finish</button>
+            <hr />
         </div>
         <div id="user">
             <h2>you have <span id="balance">...</span> M+C</h2>
@@ -78,7 +88,11 @@
             </label>
             <button id="pool" class="button" type="button">fund</button>
             <h2>add project</h2>
-            <p class="center">Add a new project to the current funding round.</p>
+            <p class="center">
+                Add a new project to the current funding round.
+                Anyone can do this.
+                To participate in the qf funding, the project must be approved by administrator.
+            </p>
             <label class="label">
                 enter address
                 <span id="projectAddressHint" class="hint"></span>
@@ -91,22 +105,19 @@
             </label>
             <button id="addProject" class="button" type="button">add</button>
             <h2>projects</h2>
+            <p class="center">Qf-vote for the project. The voting round <span id="round">...</span>.</p>
             <div id="projects"></div>
-            <p>Qf-vote for the project.</p>
             <label class="label">
-                enter project address
-                <span id="fundAddressHint" class="hint"></span>
-                <input id="fundAddress" class="input" type="text" size="42" maxlength="42" />
+                enter project's address
+                <span id="voteAddressHint" class="hint"></span>
+                <input id="voteAddress" class="input" type="text" size="42" maxlength="42" />
             </label>
             <label class="label">
                 enter M+C value
-                <span id="fundValueHint" class="hint"></span>
-                <input id="fundValue" class="input" type="text" size="42" maxlength="42" />
+                <span id="voteValueHint" class="hint"></span>
+                <input id="voteValue" class="input" type="text" size="42" maxlength="42" />
             </label>
-            <button id="fund" class="button" type="button">fund</button>
-            <h2>finish</h2>
-            <p>Finish the current qf round. It can do anybody. It can cost much gas. Time when it can be finished - <span id="time"></span></p>
-            <button id="finish" class="button" type="button">finish</button>
+            <button id="vote" class="button" type="button">vote</button>
             <h2>logs</h2>
             <div id="log"></div>
         </div>

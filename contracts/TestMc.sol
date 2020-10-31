@@ -27,7 +27,6 @@ contract TestMc {
     string public symbol = "M+C";
 
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
-    event Approval(address indexed _holder, address indexed _spender, uint256 _value);
 
     constructor() {
         totalSupply = 10**24;
