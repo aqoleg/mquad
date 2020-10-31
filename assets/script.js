@@ -621,7 +621,7 @@
         mquadContract.methods.totalAdministrators().call().then(function (result) {
             document.getElementById('totalAdministrators').innerHTML = result;
         });
-        mcContract.methods.balanceOf(mquadAddress).call().then(function (result) {
+        mquadContract.methods.fundSum().call().then(function (result) {
             result = new BigNumber(result).shiftedBy(-18);
             if (result.isZero()) {
                 document.getElementById('poolBalance').removeAttribute('title');
