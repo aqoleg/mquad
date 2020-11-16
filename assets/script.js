@@ -511,35 +511,38 @@
         var script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js';
         script.onload = function () {
-            document.getElementById('loading').style.display = 'none';
             if (typeof window.ethereum === 'undefined') {
-                document.getElementById('install').style.display = 'block';
+                document.getElementById('startMessage').innerHTML = 'install ' +
+                    '<a href="https://metamask.io/download.html" target="_blank" rel="noopener">' +
+                    'metamask</a> or use ' +
+                    '<a href="https://opera.com" target="_blank" rel="noopener">opera</a>';
             } else {
                 window.web3 = new Web3(ethereum);
                 load();
-                ethereum.on('chainChanged', load);
-                ethereum.on('accountsChanged', load);
-                ethereum.autoRefreshOnNetworkChange = false;
+                if (typeof ethereum.on !== 'undefined') {
+                    ethereum.on('chainChanged', load);
+                    ethereum.on('accountsChanged', load);
+                    ethereum.autoRefreshOnNetworkChange = false;
+                }
             }
         };
         document.body.appendChild(script);
     };
 
     function load() {
-        ethereum.request({
-            method: 'net_version'
-        }).then(function (network) {
-            if (Number(network) !== 42) {
+        web3.eth.getChainId().then(function (newNetwork) {
+            newNetwork = Number(newNetwork);
+            if (newNetwork !== 42) {
                 mcContract = null;
                 account = null;
-                document.getElementById('network').style.display = 'block';
+                document.getElementById('startMessage').innerHTML = 'switch to the kovan test network';
+                document.getElementById('startMessage').style.display = 'block';
                 document.getElementById('connect').style.display = 'none';
-                document.getElementById('administrator').style.display = 'none';
-                document.getElementById('user').style.display = 'none';
+                document.getElementById('main').style.display = 'none';
                 return;
             }
             if (mcContract === null) {
-                document.getElementById('network').style.display = 'none';
+                account = null;
                 mcContract = new web3.eth.Contract(mcAbi, mcAddress);
                 mquadContract = new web3.eth.Contract(mquadAbi, mquadAddress);
                 mcContract.events.allEvents().on('data', function () {
@@ -553,7 +556,32 @@
                     }
                 });
             }
-            loadAccounts();
+
+            web3.eth.getAccounts().then(function (accounts) {
+                if (accounts.length === 0) {
+                    account = null;
+                    document.getElementById('startMessage').style.display = 'none';
+                    document.getElementById('connect').style.display = 'block';
+                    document.getElementById('main').style.display = 'none';
+                    return;
+                }
+                var newAccount = web3.utils.toChecksumAddress(accounts[0]);
+                if (newAccount === account) {
+                    return;
+                }
+                account = newAccount;
+                document.getElementById('startMessage').style.display = 'none';
+                document.getElementById('connect').style.display = 'none';
+                document.getElementById('administrator').style.display = 'none';
+                document.getElementById('main').style.display = 'block';
+                mquadContract.methods.administrators(account).call().then(function (result) {
+                    if (result) {
+                        document.getElementById('administrator').style.display = 'block';
+                    }
+                });
+                loadMc(true);
+                loadMquad(true);
+            });
         }).catch(function (error) {
             console.error(error);
             if (error.message) {
@@ -561,32 +589,27 @@
             }
             alert(error);
         });
+    }
 
-        function loadAccounts() {
-            ethereum.request({
-                method: 'eth_accounts'
-            }).then(function (accounts) {
-                if (accounts.length === 0) {
-                    account = null;
-                    document.getElementById('connect').style.display = 'block';
-                    document.getElementById('administrator').style.display = 'none';
-                    document.getElementById('user').style.display = 'none';
-                } else {
-                    var newAccount = web3.utils.toChecksumAddress(accounts[0]);
-                    if (newAccount === account) {
-                        return;
-                    }
-                    account = newAccount;
-                    document.getElementById('connect').style.display = 'none';
-                    document.getElementById('user').style.display = 'block';
-                    mquadContract.methods.administrators(account).call().then(function (result) {
-                        document.getElementById('administrator').style.display = result ? 'block' : 'none';
-                    });
-                    loadMc(true);
-                    loadMquad(true);
-                }
-            });
+    function connect() {
+        if (typeof window.ethereum === 'undefined') {
+            alert('ethereum is not loaded');
+            return;
         }
+
+        new Promise(function (resolve) {
+            if (typeof ethereum.request === 'undefined') {
+                ethereum.enable().then(resolve);
+            } else {
+                ethereum.request({method: 'eth_requestAccounts'}).then(resolve);
+            }
+        }).catch(function (error) {
+            console.error(error);
+            if (error.message) {
+                error = error.message;
+            }
+            alert(error);
+        });
     }
 
     function loadMc(clear) {
@@ -767,18 +790,6 @@
             document.getElementById('projects').innerHTML =
                 '<p class="center">there are no projects</p>';
         }
-    }
-
-    function connect() {
-        ethereum.request({
-            method: 'eth_requestAccounts'
-        }).catch(function (error) {
-            console.error(error);
-            if (error.message) {
-                error = error.message;
-            }
-            alert(error);
-        });
     }
 
     function administrator(add) {

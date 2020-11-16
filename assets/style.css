@@ -22,12 +22,19 @@ hr {
     margin-top: 32px;
 }
 
-#message {
-    height: 64px;
-    padding-top: 16px;
+#noFooter {
+    overflow: auto;
+    min-height: calc(100vh - 80px); /* footer heigth */
+}
+#startMessage {
+    margin: 0px;
+    padding-top: 30vh;
     text-align: center;
 }
-#install, #network, #connect, #administrator, #user {
+#connect {
+    margin-top: 30vh;
+}
+#connect, #main {
     display: none;
 }
 .center {
@@ -102,6 +109,16 @@ hr {
     width: 90%;
     margin: 32px auto 0px;
     padding-bottom: 32px;
+}
+#footer {
+    height: 80px;
+}
+#footer a {
+    float: right;
+    margin-top: 24px;
+    margin-right: 5%;
+    padding: 4px;
+    font-size: 16px;
 }
 .onestring {
     overflow: hidden;
